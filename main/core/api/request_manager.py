@@ -1,6 +1,9 @@
+""" request manager module
+"""
 import requests
-from main.core.utils.json_reader import Json_Reader
+from main.core.utils.json_reader import JsonReader
 from main.core.utils.logger import logging
+from main.core.api.enums.http_methods_enum import HttpMethods
 
 
 class RequestManager:
@@ -12,12 +15,13 @@ class RequestManager:
         """Constructor For Request Manager
 
         Args:
-            config_file (str, optional): json file with needed configuration. Defaults to ./configuration.json.
+            config_file (str, optional): json file with
+                        needed configuration. Defaults to ./configuration.json.
         """
         if config_file == "":
-            self.__config = Json_Reader().open_json("./configuration.json")
+            self.__config = JsonReader("./configuration.json").open_json()
 
-        __environment = Json_Reader().open_json("./environment.json")
+        __environment = JsonReader("./environment.json").open_json()
 
         env_selected = self.__config.get("environment", "development")
         self.__env_users = __environment.get(env_selected).get("users")
@@ -37,7 +41,9 @@ class RequestManager:
             RequestManager.__instance = RequestManager()
         return RequestManager.__instance
 
-    def make_request(self, http_method, endpoint, payload=None, **kwargs):
+    def make_request(
+        self, http_method, endpoint, payload=None, **kwargs
+    ):  # pylint: disable=W0613
         """central method to make a request
 
         Args:
@@ -47,10 +53,13 @@ class RequestManager:
         Returns:
             request response object
         """
-        logging.debug(f"Request {http_method} to {self.url}{endpoint}")
+        logging.debug(
+            f"Request {http_method} to {self.url}{endpoint}"
+        )  # pylint: enable=W0613
         self.response = requests.request(
             method=HttpMethods[http_method].value,
             url=f"{self.url}{endpoint}",
             headers=self.headers,
+            timeout=(15),
         )
         return self.response

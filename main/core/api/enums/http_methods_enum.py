@@ -1,3 +1,5 @@
+""" Enum Module for HttpResponse
+"""
 from enum import Enum
 
 
