@@ -7,8 +7,9 @@ class JsonReader:
     """Json reader class"""
 
     def __init__(self, path):
-        """In this implementation, the json_handler class takes a path parameter as
-        an argument during initialization. This is the path where the json file is.
+        """In this implementation, the json_handler class takes a path
+        parameter as an argument during initialization. This is the path
+        where the json file is.
 
         Args:
             path (str): Is the path where the json file is

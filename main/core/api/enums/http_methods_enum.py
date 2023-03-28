@@ -7,7 +7,6 @@ class HttpMethods(Enum):
     """
     list of endpoints that pivotal uses
     """
-
     GET = "GET"
     POST = "POST"
     PUT = "PUT"
