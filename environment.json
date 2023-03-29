@@ -1,10 +1,15 @@
 {
     "testing":{
-        "token":"",
-        "api-url":"https://www.pivotaltracker.com/services/v5/"
+        "headers": {
+            "X-TrackerToken":""
+        },
+        "url":"https://www.pivotaltracker.com/services/v5"
     },
     
     "development":{
-
+        "headers": {
+            "X-TrackerToken":""
+        },
+        "url":"https://www.pivotaltracker.com/services/v5"
     }
 }

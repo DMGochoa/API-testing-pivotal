@@ -1,9 +1,12 @@
 """ request manager module
 """
+import os
 import requests
 from main.core.utils.json_reader import JsonReader
 from main.core.utils.logger import logging
 from main.core.api.enums.http_methods_enum import HttpMethods
+
+# pylint: disable=unused-private-member
 
 
 class RequestManager:
@@ -18,17 +21,23 @@ class RequestManager:
             config_file (str, optional): json file with
                         needed configuration. Defaults to ./configuration.json.
         """
+        # Obtain the root path of the project
+        root_path = os.path.join(os.path.dirname(__file__), '..', '..', '..')
         if config_file == "":
-            self.__config = JsonReader("./configuration.json").open_json()
-
-        __environment = JsonReader("./environment.json").open_json()
-
+            self.__config = JsonReader(
+                os.path.join(root_path, "configuration.json")).open_json()
+        else:
+            self.__config = JsonReader(config_file).open_json()
+        # Get the environment selected
         env_selected = self.__config.get("environment", "development")
-        self.__env_users = __environment.get(env_selected).get("users")
-        self.headers = {"Accept": __environment["headers"]}
-        self.url = __environment.get(env_selected).get("url")
-        self.key = self.__env_users.get("admin").get("key")
-        self.token = self.__env_users.get("admin").get("token")
+        # Get the environment configuration by the environment selected
+        __environment = JsonReader(
+            os.path.join(root_path, "environment.json")
+        ).open_json().get(env_selected)
+        # Set the environment configuration
+        self.url = __environment.get("url")
+        self.headers = __environment.get("headers")
+        self.params = None
         self.response = None
 
     @staticmethod
@@ -42,7 +51,7 @@ class RequestManager:
         return RequestManager.__instance
 
     def make_request(
-        self, http_method, endpoint, payload=None, **kwargs
+        self, http_method, endpoint, payload=None
     ):  # pylint: disable=W0613
         """central method to make a request
 
@@ -60,6 +69,7 @@ class RequestManager:
             method=HttpMethods[http_method].value,
             url=f"{self.url}{endpoint}",
             headers=self.headers,
+            params=payload,
             timeout=(15),
         )
         return self.response

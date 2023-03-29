@@ -1,0 +1,103 @@
+{
+    "type": "object",
+    "properties": {
+        "account_id": {
+            "type": "integer"
+        },
+        "atom_enabled": {
+            "type": "boolean"
+        },
+        "automatic_planning": {
+            "type": "boolean"
+        },
+        "bugs_and_chores_are_estimatable": {
+            "type": "boolean"
+        },
+        "created_at": {
+            "type": "string"
+        },
+        "current_iteration_number": {
+            "type": "integer"
+        },
+        "enable_following": {
+            "type": "boolean"
+        },
+        "enable_incoming_emails": {
+            "type": "boolean"
+        },
+        "enable_tasks": {
+            "type": "boolean"
+        },
+        "has_google_domain": {
+            "type": "boolean"
+        },
+        "id": {
+            "type": "integer"
+        },
+        "initial_velocity": {
+            "type": "integer"
+        },
+        "iteration_length": {
+            "type": "integer"
+        },
+        "kind": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "number_of_done_iterations_to_show": {
+            "type": "integer"
+        },
+        "point_scale": {
+            "type": "string"
+        },
+        "point_scale_is_custom": {
+            "type": "boolean"
+        },
+        "project_type": {
+            "type": "string"
+        },
+        "public": {
+            "type": "boolean"
+        },
+        "show_priority_icon": {
+            "type": "boolean"
+        },
+        "show_priority_icon_in_all_panels": {
+            "type": "boolean"
+        },
+        "show_story_priority": {
+            "type": "boolean"
+        },
+        "start_time": {
+            "type": "string"
+        },
+        "time_zone": {
+            "type": "object",
+            "properties": {
+                "kind": {
+                    "type": "string"
+                },
+                "olson_name": {
+                    "type": "string"
+                },
+                "offset": {
+                    "type": "string"
+                }
+            }
+        },
+        "updated_at": {
+            "type": "string"
+        },
+        "velocity_averaged_over": {
+            "type": "integer"
+        },
+        "version": {
+            "type": "integer"
+        },
+        "week_start_day": {
+            "type": "string"
+        }
+    }
+}

@@ -3,7 +3,7 @@
 import logging
 import os
 
-LOGGER = "request_manager.log"
+LOGGER = "bootcampmt1.log"
 absolute_path = os.path.dirname(__file__)
 logger_path = os.path.join(absolute_path, "../../..", LOGGER)
 
