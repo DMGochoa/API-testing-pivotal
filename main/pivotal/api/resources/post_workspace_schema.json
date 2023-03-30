@@ -1,0 +1,24 @@
+{
+    "type": "object",
+    "properties":{
+        "id": {
+            "type": "integer"
+        },
+        "kind": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "person_id": {
+            "type": "integer"
+        },
+        "project_ids":
+        {
+            "type": "array",
+            "items": {
+                "type": "integer"
+              }
+        }
+    }
+}
