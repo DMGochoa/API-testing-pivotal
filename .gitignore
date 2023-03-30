@@ -1,2 +1,7 @@
 _pycache_
+Pipfile
+.log
+.pytest_cache
+bootcampmt1.log
+.gitignore
 *.log

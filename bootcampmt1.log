@@ -1,0 +1,3 @@
+25-03-2023 09:49:22 DEBUG Request GET to https://www.pivotaltracker.com/services/v5/me
+25-03-2023 09:49:22 DEBUG Starting new HTTPS connection (1): www.pivotaltracker.com:443
+25-03-2023 09:49:22 DEBUG https://www.pivotaltracker.com:443 "GET /services/v5/me HTTP/1.1" 200 None

@@ -10,22 +10,24 @@ def pytest_bdd_after_scenario(request, scenario):
         request (object): request object of fixture
         scenario (object): scenario object of pytest bdd
     """
-    # pylint: disable=import-error
     tags = scenario.tags
-    logging.info(f"Verifing the tags: {tags}")
+    logging.info(f"Tags: {tags}")
+    req_manager = RequestManager.get_instance()
     # Search for the tag delete
     for tag in tags:
         if 'delete' in tag:
-            # Search for the tag project and if matches delete the project
+            if 'workspace' in tag:
+                logging.info("Deleting the workspace")
+                id_workspace = request.response.json()["id"]
+                endpoint = f'/my/workspaces/{id_workspace}'
             if 'project' in tag:
                 logging.info("Deleting the project")
-                req_manager = RequestManager.get_instance()
                 id_project = request.response.json()["id"]
                 endpoint = f'/projects/{id_project}'
-                req_manager.make_request(
-                    http_method='DELETE',
-                    endpoint=endpoint
-                )
-                status = req_manager.response.status_code
-                logging.info(
-                    f"Response for delete: {status}")
+            req_manager.make_request(
+                http_method='DELETE',
+                endpoint=endpoint
+            )
+            status = req_manager.response.status_code
+            logging.info(
+                f"Response for delete: {status}")
