@@ -23,6 +23,8 @@ class RequestManager:
         """
         # Obtain the root path of the project
         root_path = os.path.join(os.path.dirname(__file__), '..', '..', '..')
+        logging.info(f"Root path: {root_path}")
+        logging.info(f"Files in path: {os.listdir(root_path)}")
         if config_file == "":
             self.__config = JsonReader(
                 os.path.join(root_path, "configuration.json")).open_json()
@@ -31,9 +33,11 @@ class RequestManager:
         # Get the environment selected
         env_selected = self.__config.get("environment", "development")
         # Get the environment configuration by the environment selected
+        logging.info(f"Environment selected: {env_selected}")
         __environment = JsonReader(
             os.path.join(root_path, "environment.json")
         ).open_json().get(env_selected)
+        logging.info(f"Environment configuration: {__environment}")
         # Set the environment configuration
         self.url = __environment.get("url")
         self.headers = __environment.get("headers")

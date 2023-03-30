@@ -4,8 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pytest-bdd = "*"
+pylint = "*"
+flake8 = "*"
+pycodestyle = "*"
+requests = "*"
 sttable = "*"
+pytest = "*"
+pytest-bdd = "*"
 jsonschema = "*"
 
 [dev-packages]
