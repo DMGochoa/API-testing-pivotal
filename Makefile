@@ -30,7 +30,7 @@ static_code_analysis:
 test:
 	@echo "Executing testing scenarios with TAGS: $(TAGS)"
 	@echo "Report file: $(REPORT_FILE)"
-	pipenv run pytest --cache-clear --cucumber-json="$(REPORT_FILE)" -vsm "$(TAGS)"
+	pipenv run python -m pytest --cache-clear --cucumber-json="$(REPORT_FILE)" -vsm "$(TAGS)"
 	@echo "Finished testing."
 
 report:

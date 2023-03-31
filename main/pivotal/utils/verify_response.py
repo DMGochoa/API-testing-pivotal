@@ -20,14 +20,12 @@ class VerifyResponse:
             str: Success if the response is valid, error message otherwise
         """
         logging.info(f"Validating the response against {schema} schema")
-        resources_path = os.path.join(os.path.dirname(__file__),
-                                      '..',
-                                      'api',
-                                      'resources',
-                                      schema)
+        resources_path = os.path.join(
+            os.path.dirname(__file__), "..", "api", "resources", schema
+        )
         template_schema = JsonReader(resources_path).open_json()
         try:
             jsonschema.validate(response, template_schema)
-            return True, 'Success'
+            return True, "Success"
         except jsonschema.exceptions.ValidationError as error:
             return False, str(error)
