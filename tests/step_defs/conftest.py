@@ -49,10 +49,10 @@ def pytest_bdd_before_scenario(request, scenario):
                 id_tag = EndpointTags.WORKSPACE_ID.value
 
             response = req_manager.make_request(
-                    http_method=HttpMethods.POST.value,
-                    endpoint=endpoint,
-                    payload=body_parameters,
-                )
+                http_method=HttpMethods.POST.value,
+                endpoint=endpoint,
+                payload=body_parameters,
+            )
             request.before_scenario[id_tag] = response.json()["id"]
             status = response.status_code
             logging.info(
@@ -61,8 +61,8 @@ def pytest_bdd_before_scenario(request, scenario):
                 "Response for the " +
                 f" creation: {req_manager.response}"
             )
-                # Search for the tag stories and if
-                # matches creates stories in a project
+            # Search for the tag stories and if
+            # matches creates stories in a project
             if "stories" in tag:
                 logging.info("Creating the stories")
                 project_id_tag = EndpointTags.PROJECT_ID.value
