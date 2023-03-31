@@ -22,3 +22,15 @@ Feature: Project
         Then the response status code should be "200"
         And the response body should have "0" elements
         And the response should fit the following schema "get_projects_schema.json"
+    
+    @functional @tc_03 @create_project @delete_project @negative
+    Scenario: A project can't be creted with a duplicated name
+        Given the user sets the following body parameters
+            | name         | description            |
+            | My-Project   | My Project Description |
+        When the user sends a "POST" request to "/projects" endpoint
+        Then the response status code should be "400"
+        And the response body should contain the following data
+            | code                | kind  |
+            | invalid_parameter   | error |
+        And the response should fit the following schema "post_project_schema.json"

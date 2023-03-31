@@ -7,14 +7,15 @@ from pytest_bdd import given, when, parsers
 from main.core.utils.logger import logging
 from main.core.api.request_manager import RequestManager
 from tests.utils.endpoint_utils import EndpointUtils
+
 # pylint: enable=import-error
 # pylint: enable=no-name-in-module
 
 
-@given(parsers.parse(
-    "the user sets the following" +
-    " body parameters\n{body_parameters}"
-))
+@given(
+    parsers.parse("the user sets the following" +
+                  " body parameters\n{body_parameters}")
+)
 def set_body_parameters(request, body_parameters):
     """This function sets the body parameters"""
     body_parameters = parse_str_table(body_parameters)
@@ -23,8 +24,10 @@ def set_body_parameters(request, body_parameters):
     request.params = body_parameters
 
 
-@when(parsers.parse(
-    'the user sends a "{httpmethod}" request to "{endpoint}" endpoint'))
+@when(
+    parsers.parse('the user sends a "{httpmethod}" ' +
+                  'request to "{endpoint}" endpoint')
+)
 def send_request(request, httpmethod, endpoint):
     """This function sends a request"""
     logging.info(f"Sending a request {httpmethod} to {endpoint} endpoint")
@@ -37,7 +40,7 @@ def send_request(request, httpmethod, endpoint):
         params = request.params
     except AttributeError:
         params = None
-    request.response = req_manager.make_request(http_method=httpmethod,
-                                                endpoint=endpoint,
-                                                payload=params)
-    logging.info(f"Response: {request.response.json()}")
+    logging.info(f"Params: {params}")
+    request.response = req_manager.make_request(
+        http_method=httpmethod, endpoint=endpoint, payload=params
+    )

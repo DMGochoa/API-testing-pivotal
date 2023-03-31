@@ -24,7 +24,7 @@ def pytest_bdd_before_scenario(request, scenario):
         scenario (object): scenario object of pytest bdd
     """
     # pylint: disable=import-error
-    tags = scenario.tags
+    tags = sorted(list(scenario.tags))
     logging.info(f"Verifing the tags: {tags}")
     req_manager = RequestManager.get_instance()
     request.before_scenario = {}
@@ -61,6 +61,36 @@ def pytest_bdd_before_scenario(request, scenario):
                 "Response for the " +
                 f" creation: {req_manager.response}"
             )
+                # Search for the tag stories and if
+                # matches creates stories in a project
+            if "stories" in tag:
+                logging.info("Creating the stories")
+                project_id_tag = EndpointTags.PROJECT_ID.value
+                endpoint = (
+                    "/projects/" +
+                    f"{request.before_scenario[project_id_tag]}/stories"
+                )
+                logging.info(f"TOOO this endpoint: {endpoint}")
+                for story_number in range(1, 4):
+                    body_parameters = {
+                        "name": f"My-story-{story_number}",
+                        "description": "A temporal project for"
+                        + " stories testing purposes",
+                    }
+                    response = req_manager.make_request(
+                        http_method=HttpMethods.POST.value,
+                        endpoint=endpoint,
+                        payload=body_parameters,
+                    )
+                    status = response.status_code
+                    logging.info(
+                        "Response status for the story " +
+                        f"#{story_number} creation: {status}"
+                    )
+                    logging.info(
+                        "Response for the story"
+                        + f" #{story_number} creation: {req_manager.response}"
+                    )
 
 
 def pytest_bdd_after_scenario(scenario):

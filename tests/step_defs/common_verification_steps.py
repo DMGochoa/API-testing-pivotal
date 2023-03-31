@@ -4,12 +4,40 @@
 from sttable import parse_str_table
 from pytest_bdd import then, parsers
 from main.core.utils.logger import logging
+from main.pivotal.api.enums.project_constants import EndpointTags
 from main.pivotal.utils.verify_response import VerifyResponse
 # pylint: enable=import-error
 
 
 @then(
-    parsers.parse('the response status code should be "{statuscode}"'))
+    parsers.parse(
+        "the response body should contain a list of {story_number}"
+        + "stories associated with the project"
+    )
+)
+def get_stories_list(request):
+    """get stories list for the project
+
+    Args:
+        request (obj): the context object
+    """
+    logging.info(
+        "validation request " +
+        f"{isinstance(request.response.json(), list)}")
+    assert isinstance(request.response.json(), list)
+    for story in request.response.json():
+        project_id_tag = EndpointTags.PROJECT_ID.value
+        before_id = request.before_scenario[project_id_tag]
+        logging.info(
+            f"validate story project#{story.get('project_id')}")
+        logging.info(
+            "validate request " +
+            f"project#{before_id}"
+        )
+        assert story.get("project_id") == before_id
+
+
+@then(parsers.parse('the response status code should be "{statuscode}"'))
 def validate_status_code(request, statuscode):
     """This function validates the status code
         recive the reques fixture
@@ -23,8 +51,11 @@ def validate_status_code(request, statuscode):
 
 
 @then(
-    parsers.parse("the response body should contain" +
-                  " the following data\n{body_parameters}"))
+    parsers.parse(
+        "the response body should contain" +
+        " the following data\n{body_parameters}"
+    )
+)
 def body_params(request, body_parameters):
     """This function validates the response body
         recives the request fixture
@@ -46,8 +77,9 @@ def validate_schema(request, schema):
     """
     logging.info(f"Validating the response against {schema} schema")
     schema_resp = request.response.json()
-    veredict, emsg = VerifyResponse.verify_schema(response=schema_resp,
-                                                  schema=schema)
+    veredict, emsg = VerifyResponse.verify_schema(
+        response=schema_resp,
+        schema=schema)
     logging.info(f"Veredict: {veredict} with message: {emsg}")
     assert veredict
 
