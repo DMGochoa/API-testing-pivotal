@@ -8,6 +8,7 @@ class EndpointTags(Enum):
     MEMBERSHIP_ID = '<membership.id>'
     PERSON_ID = '<person.id>'
     STORY_ID = '<stories.id>'
+    WORKSPACE_ID = '<workspace.id>'
 
 
 class ProjectsEndpoints(Enum):
@@ -58,3 +59,12 @@ class ProjectsEndpoints(Enum):
         + 'type=comment_create_activity'
     PROJECT_ACTIVITY_COMMENT_DELETE = '/projects/{}/activity?' \
         + 'event_type=comment_delete'
+
+
+class WorkspaceEndpoints(Enum):
+
+    tag_workspace = EndpointTags.WORKSPACE_ID.value
+
+    WORKSPACES = '/my/workspaces'
+    WORKSPACE = f'/my/workspaces/{tag_workspace}'
+    WORKSPACE_ACTIVITY = f'/workspaces/{tag_workspace}/activity'

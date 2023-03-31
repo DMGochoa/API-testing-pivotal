@@ -7,7 +7,7 @@ from tests.utils.hook_names import delete_everything
 from main.core.api.request_manager import RequestManager
 from main.core.api.enums.http_methods_enum import HttpMethods
 from main.pivotal.api.enums.project_constants import (
-    ProjectsEndpoints,
+    ProjectsEndpoints, WorkspaceEndpoints,
     EndpointTags,
 )  # noqa: E501
 
@@ -39,21 +39,28 @@ def pytest_bdd_before_scenario(request, scenario):
                     "description": "A temporal project for"
                     + " stories testing purposes",
                 }
-                response = req_manager.make_request(
+                id_tag = EndpointTags.PROJECT_ID.value
+            if "workspace" in tag:
+                logging.info("Creating the workspace")
+                endpoint = WorkspaceEndpoints.WORKSPACES.value
+                body_parameters = {
+                    "name": "My-Workspace"
+                }
+                id_tag = EndpointTags.WORKSPACE_ID.value
+
+            response = req_manager.make_request(
                     http_method=HttpMethods.POST.value,
                     endpoint=endpoint,
                     payload=body_parameters,
                 )
-                project_id_tag = EndpointTags.PROJECT_ID.value
-                request.before_scenario[project_id_tag] = response.json()["id"]
-                status = response.status_code
-                logging.info(
-                    f"Response status for the project creation: {status}"
-                )
-                logging.info(
-                    "Response for the project" +
-                    f" creation: {req_manager.response}"
-                )
+            request.before_scenario[id_tag] = response.json()["id"]
+            status = response.status_code
+            logging.info(
+                f"Response status for the before scenario creation: {status}")
+            logging.info(
+                "Response for the " +
+                f" creation: {req_manager.response}"
+            )
 
 
 def pytest_bdd_after_scenario(scenario):

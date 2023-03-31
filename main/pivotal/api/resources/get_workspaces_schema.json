@@ -1,0 +1,35 @@
+{
+    "type": "array",
+    "default": [],
+    "items": {
+        "type": "object",
+        "default": {},
+        "required": [
+            "kind",
+            "id",
+            "name",
+            "person_id",
+            "project_ids"
+        ],
+        "properties": {
+            "kind": {
+                "type": "string"
+            },
+            "id": {
+                "type": "integer"
+            },
+            "name": {
+                "type": "string"
+            },
+            "person_id": {
+                "type": "integer"
+            },
+            "project_ids": {
+                "type": "array",
+                "items": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
