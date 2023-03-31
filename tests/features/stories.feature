@@ -15,3 +15,10 @@ Feature: Stories
             | name         | story_type  | description            |
             | New-story    | feature     | This is a new story    |
         And the response should fit the following schema "post_stories_schema.json"
+
+    @smoke @tc_22 @create_project @delete_project @create_stories
+    Scenario: Return all Stories from a Project
+        When the user sends a "GET" request to "/projects/<projects.id>/stories" endpoint
+        Then the response status code should be "200"
+        And the response body should contain a list of "3" stories associated with the project
+        And the response should fit the following schema "get_stories_schema.json"
