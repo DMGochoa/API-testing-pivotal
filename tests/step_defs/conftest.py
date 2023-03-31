@@ -78,7 +78,8 @@ def pytest_bdd_before_scenario(request, scenario):
                 request.before_scenario[id_tag] = response.json()["id"]
                 status = response.status_code
                 logging.info(
-                    f"Response status for the before scenario creation: {status}")
+                    "Response status for the " +
+                    f"before scenario creation: {status}")
                 logging.info(
                     "Response for the " +
                     f" creation: {req_manager.response}"
@@ -98,7 +99,8 @@ def pytest_bdd_before_scenario(request, scenario):
                 request.before_scenario[id_tag] = response.json()["id"]
                 status = response.status_code
                 logging.info(
-                    f"Response status for the before scenario creation: {status}")
+                    "Response status for the " +
+                    f"before scenario creation: {status}")
                 logging.info(
                     "Response for the " +
                     f" creation: {req_manager.response}"
