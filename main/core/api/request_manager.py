@@ -2,11 +2,13 @@
 """
 import os
 import requests
+
 # pylint: disable=import-error
 # pylint: disable=no-name-in-module
 from main.core.utils.json_reader import JsonReader
 from main.core.utils.logger import logging
 from main.core.api.enums.http_methods_enum import HttpMethods
+
 # pylint enable=import-error
 # pylint enable=no-name-in-module
 # pylint: disable=unused-private-member
@@ -44,7 +46,7 @@ class RequestManager:
         self.url = __environment.get("url")
         self.headers = __environment.get("headers")
         self.params = None
-        self.response = dict()
+        self.response = {}
 
     @staticmethod
     def get_instance():
