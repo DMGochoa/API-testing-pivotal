@@ -15,4 +15,10 @@ Feature: Project
             | name         | description            |
             | My-Project   | My Project Description |
         And the response should fit the following schema "post_project_schema.json"
-        
+    
+    @smoke @tc_02
+    Scenario: Search for projects when there are no records
+        When the user sends a "GET" request to "/projects" endpoint
+        Then the response status code should be "200"
+        And the response body should have "0" elements
+        And the response should fit the following schema "get_projects_schema.json"

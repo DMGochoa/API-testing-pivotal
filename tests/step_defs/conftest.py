@@ -47,9 +47,12 @@ def pytest_bdd_before_scenario(request, scenario):
                 project_id_tag = EndpointTags.PROJECT_ID.value
                 request.before_scenario[project_id_tag] = response.json()["id"]
                 status = response.status_code
-                logging.info(f"Response status for the project creation: {status}")
                 logging.info(
-                    "Response for the project" + f" creation: {req_manager.response}"
+                    f"Response status for the project creation: {status}"
+                )
+                logging.info(
+                    "Response for the project" +
+                    f" creation: {req_manager.response}"
                 )
 
 
