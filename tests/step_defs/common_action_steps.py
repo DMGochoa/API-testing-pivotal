@@ -33,7 +33,11 @@ def send_request(request, httpmethod, endpoint):
     logging.info(f"Request dict: {request_dict}")
     endpoint = EndpointUtils.endpoint_autofill_tags(endpoint, request_dict)
     logging.info(f"Endpoint: {endpoint}")
+    try:
+        params = request.params
+    except AttributeError:
+        params = None
     request.response = req_manager.make_request(http_method=httpmethod,
                                                 endpoint=endpoint,
-                                                payload=request.params)
+                                                payload=params)
     logging.info(f"Response: {request.response.json()}")

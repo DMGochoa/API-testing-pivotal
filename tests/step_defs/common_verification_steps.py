@@ -50,3 +50,15 @@ def validate_schema(request, schema):
                                                   schema=schema)
     logging.info(f"Veredict: {veredict} with message: {emsg}")
     assert veredict
+
+
+@then(parsers.parse('the response body should have "{number}" elements'))
+def validate_number_elements(request, number):
+    """This function validates the response body
+
+    Args:
+        request (object): request fixture
+        number (str): number of elements to validate
+    """
+    logging.info(f"Validating the response has {number} elements")
+    assert len(request.response.json()) == int(number)
