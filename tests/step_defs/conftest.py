@@ -91,6 +91,50 @@ def pytest_bdd_before_scenario(request, scenario):
                         "Response for the story"
                         + f" #{story_number} creation: {req_manager.response}"
                     )
+            elif "project" in tag:
+                logging.info("Creating the project")
+                endpoint = ProjectsEndpoints.PROJECTS.value
+                body_parameters = {
+                    "name": "My-Project",
+                    "description": "A temporal project for"
+                    + " stories testing purposes",
+                }
+                id_tag = EndpointTags.PROJECT_ID.value
+                response = req_manager.make_request(
+                    http_method=HttpMethods.POST.value,
+                    endpoint=endpoint,
+                    payload=body_parameters,
+                )
+                request.before_scenario[id_tag] = response.json()["id"]
+                status = response.status_code
+                logging.info(
+                    "Response status for the " +
+                    f"before scenario creation: {status}")
+                logging.info(
+                    "Response for the " +
+                    f" creation: {req_manager.response}"
+                )
+            elif "workspace" in tag:
+                logging.info("Creating the workspace")
+                endpoint = WorkspaceEndpoints.WORKSPACES.value
+                body_parameters = {
+                    "name": "My-Workspace"
+                }
+                id_tag = EndpointTags.WORKSPACE_ID.value
+                response = req_manager.make_request(
+                    http_method=HttpMethods.POST.value,
+                    endpoint=endpoint,
+                    payload=body_parameters,
+                )
+                request.before_scenario[id_tag] = response.json()["id"]
+                status = response.status_code
+                logging.info(
+                    "Response status for the " +
+                    f"before scenario creation: {status}")
+                logging.info(
+                    "Response for the " +
+                    f" creation: {req_manager.response}"
+                )
 
 
 def pytest_bdd_after_scenario(scenario):
