@@ -31,36 +31,6 @@ def pytest_bdd_before_scenario(request, scenario):
     for tag in tags:
         if "create" in tag:
             # Search for the tag project and if matches creates a the project
-            if "project" in tag:
-                logging.info("Creating the project")
-                endpoint = ProjectsEndpoints.PROJECTS.value
-                body_parameters = {
-                    "name": "My-Project",
-                    "description": "A temporal project for"
-                    + " stories testing purposes",
-                }
-                id_tag = EndpointTags.PROJECT_ID.value
-            if "workspace" in tag:
-                logging.info("Creating the workspace")
-                endpoint = WorkspaceEndpoints.WORKSPACES.value
-                body_parameters = {
-                    "name": "My-Workspace"
-                }
-                id_tag = EndpointTags.WORKSPACE_ID.value
-
-            response = req_manager.make_request(
-                http_method=HttpMethods.POST.value,
-                endpoint=endpoint,
-                payload=body_parameters,
-            )
-            request.before_scenario[id_tag] = response.json()["id"]
-            status = response.status_code
-            logging.info(
-                f"Response status for the before scenario creation: {status}")
-            logging.info(
-                "Response for the " +
-                f" creation: {req_manager.response}"
-            )
             # Search for the tag stories and if
             # matches creates stories in a project
             if "stories" in tag:
