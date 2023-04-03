@@ -1,6 +1,7 @@
 """ Module that contains the step definitions for the workspace verification
 """
 # pylint: disable=import-error
+# pylint: disable=no-name-in-module
 from sttable import parse_str_table
 from pytest_bdd import then, parsers
 from tests.step_defs.common_action_steps import send_request
@@ -8,6 +9,7 @@ from main.core.utils.logger import logging
 from main.core.api.enums.http_methods_enum import HttpMethods
 from main.pivotal.api.enums.project_constants import EndpointTags
 from main.pivotal.utils.verify_response import VerifyResponse
+# pylint: enable=no-name-in-module
 # pylint: enable=import-error
 
 

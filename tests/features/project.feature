@@ -46,3 +46,9 @@ Feature: Project
             | name               | description                   |
             | My-Project-update  | My Project update Description |
         And the response should fit the following schema "put_specific_project_schema.json"
+
+    @functional @tc_05 @create_project
+    Scenario: Project can be deleted
+        When the user sends a "DELETE" request to "/projects/<projects.id>" endpoint
+        Then the response status code should be "204"
+        And the items from "/projects" should have "0" elements
