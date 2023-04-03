@@ -4,7 +4,7 @@ Feature: Project
     to work with project in Pivotal Tracker
     so that I can start tracking my work.
 
-    @functional @tc_01 @delete_project
+    @functional @tc_01 @delete_project @smoke
     Scenario: Create a project
         Given the user sets the following body parameters
             | name         | description            |
@@ -47,8 +47,44 @@ Feature: Project
             | My-Project-update  | My Project update Description |
         And the response should fit the following schema "put_specific_project_schema.json"
 
-    @functional @tc_05 @create_project
+    @functional @tc_05 @create_project @smoke
     Scenario: Project can be deleted
         When the user sends a "DELETE" request to "/projects/<projects.id>" endpoint
         Then the response status code should be "204"
         And the items from "/projects" should have "0" elements
+
+    @functional @boundary @tc_06 @delete_project
+    Scenario: Create a project with the maximum length of the name
+        Given the user sets the following body parameters
+            | name                                                 | description            |
+            | This-is-the-large-large-large-name-for-my-projects   | My Project Description |
+        When the user sends a "POST" request to "/projects" endpoint
+        Then the response status code should be "200"
+        And the response body should contain the following data
+            | name                                                  | description            |
+            | This-is-the-large-large-large-name-for-my-projects   | My Project Description |
+        And the response should fit the following schema "post_project_schema.json"
+
+    @functional @boundary @negative @tc_07 @delete_project
+    Scenario: Create a project with the maximum length plus one of the name
+        Given the user sets the following body parameters
+            | name                                                  | description            |
+            | This-is-the-large-large-large-name-for-my-projects1   | My Project Description |
+        When the user sends a "POST" request to "/projects" endpoint
+        Then the response status code should be "400"
+        And the response body should contain the following data
+            | code                | kind  |
+            | invalid_parameter   | error |
+        And the response should fit the following schema "post_project_schema.json"
+    
+    @functional @boundary @negative @tc_08 @delete_project
+    Scenario: Create a project with an empty name
+        Given the user sets the following body parameters
+            | name | description            |
+            |      | My Project Description |
+        When the user sends a "POST" request to "/projects" endpoint
+        Then the response status code should be "400"
+        And the response body should contain the following data
+            | code                | kind  |
+            | invalid_parameter   | error |
+        And the response should fit the following schema "post_project_schema.json"
