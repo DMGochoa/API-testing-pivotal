@@ -44,3 +44,4 @@ def send_request(request, httpmethod, endpoint):
     request.response = req_manager.make_request(
         http_method=httpmethod, endpoint=endpoint, payload=params
     )
+    return request.response

@@ -3,6 +3,7 @@
 # pylint: disable=no-member
 # pylint: disable=no-self-argument
 # pylint: disable=too-few-public-methods
+# pylint: disable=self-cls-assignment
 import re
 from main.core.utils.logger import logging
 
@@ -20,12 +21,13 @@ class EndpointUtils:
         Returns:
             str: Endpoint with the tags filled.
         """
-        endpoint_result = endpoint
         match_tags = re.findall(r"<[\w\.]*>", endpoint)
         logging.info(f"Match tags: {match_tags}, endpoint: {endpoint}")
         if match_tags:
             for tag in match_tags:
-                endpoint_result = endpoint.replace(tag,
-                                                   str(request_dict[tag]))
-        logging.info(f"Endpoint result: {endpoint_result}")
-        return endpoint_result
+                logging.info(f"tag: {tag}")
+                endpoint = endpoint.replace(tag,
+                                            str(request_dict[tag]))
+                logging.info(f"endpoint: {endpoint}")
+        logging.info(f"Endpoint result: {endpoint}")
+        return endpoint
