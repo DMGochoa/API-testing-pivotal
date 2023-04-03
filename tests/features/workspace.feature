@@ -45,3 +45,23 @@ Feature: Workspace
         Then the response status code should be "200"
         And the response body should have "0" elements
         And the response should fit the following schema "get_workspaces_schema.json"
+
+
+    @refactor @smoke @tc_45 @create_workspace @delete_workspace
+    Scenario: Update the name of a workspace
+        Given the user sets the following body parameters
+            | name              |
+            | updated workspace |
+        When the user sends a "PUT" request to "/my/workspaces/<workspace.id>" endpoint 
+        Then the response status code should be "400"
+        And the response body should contain the following data
+            | code              | kind     | general_problem                                 |
+            | invalid_parameter | error    | this endpoint cannot accept the parameter: name |
+
+
+    @functional @tc_46 @create_workspace
+    Scenario: Delete a workspace
+        When the user sends a "DELETE" request to "/my/workspaces/<workspace.id>" endpoint
+        Then the response status code should be "204"
+        And the items from "/my/workspaces/" should have "0" elements
+    
