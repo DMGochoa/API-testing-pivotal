@@ -1,11 +1,15 @@
 """ Module that contains the step definitions for the workspace verification
 """
 # pylint: disable=import-error
+# pylint: disable=no-name-in-module
 from sttable import parse_str_table
 from pytest_bdd import then, parsers
+from tests.step_defs.common_action_steps import send_request
 from main.core.utils.logger import logging
+from main.core.api.enums.http_methods_enum import HttpMethods
 from main.pivotal.api.enums.project_constants import EndpointTags
 from main.pivotal.utils.verify_response import VerifyResponse
+# pylint: enable=no-name-in-module
 # pylint: enable=import-error
 
 
@@ -47,6 +51,8 @@ def validate_status_code(request, statuscode):
         "Validating the status code the response " +
         "status should be {statuscode} and " +
         f"is {request.response.status_code}")
+    if request.response.status_code != 204:
+        logging.info(f"response verification {request.response.json()}")
     assert request.response.status_code == int(statuscode)
 
 
@@ -94,3 +100,23 @@ def validate_number_elements(request, number):
     """
     logging.info(f"Validating the response has {number} elements")
     assert len(request.response.json()) == int(number)
+
+
+@then(
+    parsers.parse(
+        'the items from "{endpoint}" should have "{number}" elements')
+)
+def validating_number_from_endpoint(request, endpoint, number):
+    """This function validates the number of elements
+    from an endpoint
+
+    Args:
+        endpoint (str): Get endpoint to validate
+        number (str): Number of elements to validate
+    """
+    response = send_request(request, HttpMethods.GET.value, endpoint)
+    logging.info(f"Validating endpoint {endpoint} elements")
+    logging.info(f"Validating the response has {number} elements")
+    logging.info(f"real response has {len(response.json())} elements")
+    logging.info(f"real response is {response.json()} elements")
+    assert len(response.json()) == int(number)

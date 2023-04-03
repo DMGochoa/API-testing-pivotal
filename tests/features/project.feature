@@ -34,3 +34,21 @@ Feature: Project
             | code                | kind  |
             | invalid_parameter   | error |
         And the response should fit the following schema "post_project_schema.json"
+
+    @functional @tc_04 @create_project @delete_project
+    Scenario: Project can be updated
+        Given the user sets the following body parameters
+            | name               | description                   |
+            | My-Project-update  | My Project update Description |
+        When the user sends a "PUT" request to "/projects/<projects.id>" endpoint
+        Then the response status code should be "200"
+        And the response body should contain the following data
+            | name               | description                   |
+            | My-Project-update  | My Project update Description |
+        And the response should fit the following schema "put_specific_project_schema.json"
+
+    @functional @tc_05 @create_project
+    Scenario: Project can be deleted
+        When the user sends a "DELETE" request to "/projects/<projects.id>" endpoint
+        Then the response status code should be "204"
+        And the items from "/projects" should have "0" elements
