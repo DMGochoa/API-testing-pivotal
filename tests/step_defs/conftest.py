@@ -61,67 +61,37 @@ def pytest_bdd_before_scenario(request, scenario):
                         "Response for the story"
                         + f" #{story_number} creation: {req_manager.response}"
                     )
-            elif "story" in tag:
-                logging.info("Creating the story")
-                project_id_tag = EndpointTags.PROJECT_ID.value
-                endpoint = (
-                    "/projects/" +
-                    f"{request.before_scenario[project_id_tag]}/stories"
-                )
-                logging.info(f"TOOO this endpoint: {endpoint}")
-                body_parameters = {
-                    "name": "New-story",
-                    "story_type": "feature",
-                    "description": "This is a new story "
-                }
-                response = req_manager.make_request(
-                    http_method=HttpMethods.POST.value,
-                    endpoint=endpoint,
-                    payload=body_parameters,
-                )
-                status = response.status_code
-                logging.info(
-                    "Response status for the story " +
-                    f"creation: {status}"
-                )
-                logging.info(
-                    "Response for the story"
-                    + f"creation: {req_manager.response}"
-                )
-                id_story_tag = EndpointTags.STORY_ID.value
-                request.before_scenario[id_story_tag] = response.json()["id"]
-                logging.info(f"ID of story saved: {response.json()['id']}")
-            elif "project" in tag:
-                logging.info("Creating the project")
-                endpoint = ProjectsEndpoints.PROJECTS.value
-                body_parameters = {
-                    "name": "My-Project",
-                    "description": "A temporal project for"
-                    + " stories testing purposes",
-                }
-                id_tag = EndpointTags.PROJECT_ID.value
-                response = req_manager.make_request(
-                    http_method=HttpMethods.POST.value,
-                    endpoint=endpoint,
-                    payload=body_parameters,
-                )
-                logging.info(f"json response: {response.json()}")
-                request.before_scenario[id_tag] = response.json()["id"]
-                status = response.status_code
-                logging.info(
-                    "Response status for the " +
-                    f"before scenario creation: {status}")
-                logging.info(
-                    "Response for the " +
-                    f" creation: {req_manager.response}"
-                )
-            elif "workspace" in tag:
-                logging.info("Creating the workspace")
-                endpoint = WorkspaceEndpoints.WORKSPACES.value
-                body_parameters = {
-                    "name": "My-Workspace"
-                }
-                id_tag = EndpointTags.WORKSPACE_ID.value
+            else:
+                if "story" in tag:
+                    logging.info("Creating the story")
+                    project_id_tag = EndpointTags.PROJECT_ID.value
+                    endpoint = (
+                        "/projects/" +
+                        f"{request.before_scenario[project_id_tag]}/stories"
+                    )
+                    logging.info(f"TOOO this endpoint: {endpoint}")
+                    body_parameters = {
+                        "name": "New-story",
+                        "story_type": "feature",
+                        "description": "This is a new story "
+                    }
+                    id_tag = EndpointTags.STORY_ID.value
+                elif "project" in tag:
+                    logging.info("Creating the project")
+                    endpoint = ProjectsEndpoints.PROJECTS.value
+                    body_parameters = {
+                        "name": "My-Project",
+                        "description": "A temporal project for"
+                        + " stories testing purposes",
+                    }
+                    id_tag = EndpointTags.PROJECT_ID.value
+                elif "workspace" in tag:
+                    logging.info("Creating the workspace")
+                    endpoint = WorkspaceEndpoints.WORKSPACES.value
+                    body_parameters = {
+                        "name": "My-Workspace"
+                    }
+                    id_tag = EndpointTags.WORKSPACE_ID.value
                 response = req_manager.make_request(
                     http_method=HttpMethods.POST.value,
                     endpoint=endpoint,
